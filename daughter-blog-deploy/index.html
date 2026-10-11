@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#f5f1e8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#181816" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="data:," />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet" />
+  <title>女儿成长博客</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --paper: #f5f1e8;
+      --paper-deep: #ebe4d7;
+      --ink: #20231f;
+      --muted: #5f655e;
+      --line: rgba(32, 35, 31, .18);
+      --sun: #d9a629;
+      --sun-soft: #f1d88f;
+      --sky: #3e7180;
+      --photo-bg: #ded9cf;
+      --shadow: 0 28px 70px rgba(68, 56, 35, .16);
+      --serif: "Noto Serif SC", "Songti SC", STSong, serif;
+      --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #181816;
+        --paper-deep: #22221f;
+        --ink: #f1eee6;
+        --muted: #bbb9b0;
+        --line: rgba(241, 238, 230, .18);
+        --sun: #e2b84e;
+        --sun-soft: #5a4a21;
+        --sky: #7eb3bf;
+        --photo-bg: #2a2a27;
+        --shadow: 0 28px 70px rgba(0, 0, 0, .38);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: auto; }
+    body {
+      margin: 0;
+      min-width: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.8;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; width: 100%; }
+    a { color: inherit; }
+    button { font: inherit; }
+
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 100;
+      transform: translateY(-160%);
+      background: var(--ink);
+      color: var(--paper);
+      padding: .55rem .9rem;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .site-nav {
+      width: min(1180px, calc(100% - 44px));
+      margin: 0 auto;
+      padding: 25px 0 14px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 28px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .site-nav a {
+      text-decoration: none;
+      padding: 5px 0;
+      border-bottom: 2px solid transparent;
+    }
+    .site-nav a:hover,
+    .site-nav a:focus-visible { border-color: var(--sun); outline: none; }
+
+    main { overflow: clip; }
+    .hero {
+      width: min(1180px, calc(100% - 44px));
+      margin: 0 auto;
+      min-height: 730px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, .83fr);
+      gap: clamp(44px, 7vw, 104px);
+      align-items: center;
+      padding: 72px 0 88px;
+    }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 22px;
+      color: var(--sky);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: .12em;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 38px;
+      height: 3px;
+      background: var(--sun);
+    }
+    h1, h2, blockquote { font-family: var(--serif); }
+    h1,
+    .hero h2 {
+      margin: 0;
+      max-width: 650px;
+      font-size: clamp(46px, 6.2vw, 84px);
+      line-height: 1.14;
+      letter-spacing: -.045em;
+      font-weight: 700;
+    }
+    .hero-copy > p:not(.eyebrow) {
+      max-width: 590px;
+      margin: 30px 0 36px;
+      color: var(--muted);
+      font-size: clamp(17px, 1.6vw, 20px);
+    }
+    .text-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      padding-bottom: 4px;
+      border-bottom: 1px solid currentColor;
+    }
+    .text-link::after { content: "↓"; color: var(--sun); }
+    .text-link:hover,
+    .text-link:focus-visible { color: var(--sky); outline: none; }
+
+    .hero-figure {
+      margin: 0;
+      position: relative;
+      align-self: stretch;
+      min-height: 610px;
+      background: var(--photo-bg);
+      box-shadow: var(--shadow);
+    }
+    .hero-figure img {
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 43%;
+    }
+    .hero-figure::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 155px;
+      height: 155px;
+      top: -28px;
+      right: -28px;
+      background: var(--sun-soft);
+    }
+    .caption {
+      position: absolute;
+      left: -20px;
+      bottom: 24px;
+      max-width: calc(100% - 30px);
+      padding: 12px 17px;
+      background: var(--paper);
+      color: var(--ink);
+      box-shadow: 0 8px 28px rgba(0,0,0,.13);
+      font-size: 14px;
+    }
+    .zoom-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      border: 0;
+      background: rgba(25, 28, 25, .76);
+      color: #fff;
+      padding: 9px 13px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+    .zoom-btn:hover,
+    .zoom-btn:focus-visible { background: #111; outline: 2px solid #fff; outline-offset: 2px; }
+
+    .entry {
+      width: min(1180px, calc(100% - 44px));
+      margin: 0 auto;
+      padding: 76px 0 118px;
+    }
+    .entry-lead,
+    .entry-continuation {
+      display: grid;
+      align-items: center;
+      gap: clamp(42px, 7vw, 100px);
+    }
+    .entry-lead { grid-template-columns: minmax(0, .92fr) minmax(380px, 1.08fr); }
+    .entry-continuation {
+      grid-template-columns: minmax(340px, .88fr) minmax(0, 1.12fr);
+      margin-top: 86px;
+    }
+    .entry-date {
+      margin: 0 0 19px;
+      color: var(--sky);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+    .entry h1 {
+      max-width: none;
+      margin-bottom: 30px;
+      font-size: clamp(50px, 7vw, 78px);
+    }
+    .entry-copy p,
+    .entry-closing p {
+      margin: 0 0 22px;
+      color: var(--muted);
+    }
+    .entry-copy p:not(.entry-date) { color: var(--ink); font-size: 20px; line-height: 1.95; }
+    .entry-photo {
+      position: relative;
+      margin: 0;
+      background: var(--photo-bg);
+      box-shadow: var(--shadow);
+    }
+    .entry-photo img {
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+    }
+    .entry-lead .entry-photo img { object-position: 50% 50%; }
+    .entry-continuation .entry-photo img { object-position: 50% 50%; }
+    .entry-photo figcaption {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      padding: 10px 14px;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 13px;
+      box-shadow: 0 7px 22px rgba(0, 0, 0, .12);
+    }
+    .entry-closing {
+      max-width: 610px;
+      padding-right: clamp(0px, 3vw, 30px);
+    }
+    .entry-closing p:last-of-type {
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 20px;
+      line-height: 1.9;
+    }
+    .entry-signature {
+      margin-top: 32px !important;
+      color: var(--sky) !important;
+      font-size: 15px !important;
+      font-weight: 600;
+    }
+    .archive-heading {
+      width: min(1180px, calc(100% - 44px));
+      margin: 0 auto;
+      padding-top: 36px;
+      border-top: 1px solid var(--line);
+      color: var(--sky);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .story {
+      background: var(--paper-deep);
+      padding: 110px 0;
+    }
+    .story-inner {
+      width: min(1060px, calc(100% - 44px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: clamp(42px, 8vw, 115px);
+    }
+    .story-index {
+      padding-top: 11px;
+      border-top: 1px solid var(--line);
+    }
+    .story-index span {
+      display: block;
+      color: var(--sky);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .story-index strong {
+      font-family: var(--serif);
+      font-size: 21px;
+      font-weight: 600;
+    }
+    .story-body h2,
+    .letter-copy h2 {
+      margin: 0 0 28px;
+      font-family: var(--serif);
+      font-size: clamp(35px, 4.6vw, 56px);
+      line-height: 1.25;
+      letter-spacing: -.03em;
+    }
+    .story-body p {
+      max-width: 690px;
+      margin: 0 0 22px;
+      color: var(--muted);
+    }
+    .story-body p:first-of-type {
+      color: var(--ink);
+      font-size: 21px;
+      line-height: 1.85;
+    }
+    .memory-lines {
+      margin: 52px 0 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--line);
+    }
+    .memory-lines li {
+      display: grid;
+      grid-template-columns: 82px 1fr;
+      gap: 18px;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .memory-lines span { color: var(--sky); font-weight: 600; }
+
+    .letter {
+      width: min(1120px, calc(100% - 44px));
+      margin: 0 auto;
+      padding: 120px 0;
+      display: grid;
+      grid-template-columns: minmax(300px, .78fr) minmax(0, 1.15fr);
+      gap: clamp(46px, 8vw, 110px);
+      align-items: center;
+    }
+    .letter-photo {
+      margin: 0;
+      position: relative;
+      background: var(--photo-bg);
+    }
+    .letter-photo img {
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: 50% 32%;
+      filter: saturate(.88);
+    }
+    .letter-photo::after {
+      content: "";
+      position: absolute;
+      left: -20px;
+      bottom: -20px;
+      width: 62%;
+      height: 6px;
+      background: var(--sky);
+    }
+    .letter-copy .eyebrow { margin-bottom: 18px; }
+    blockquote {
+      margin: 0;
+      max-width: 650px;
+      font-size: clamp(22px, 2.7vw, 32px);
+      line-height: 1.8;
+      font-weight: 500;
+    }
+    .signature {
+      margin: 32px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .closing {
+      border-top: 1px solid var(--line);
+      text-align: center;
+      padding: 84px 22px 88px;
+    }
+    .closing p {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(25px, 4vw, 43px);
+      line-height: 1.5;
+    }
+    .closing span { color: var(--sky); }
+
+    dialog {
+      width: min(920px, calc(100% - 28px));
+      max-height: calc(100dvh - 28px);
+      border: 0;
+      padding: 0;
+      background: #121311;
+      color: #fff;
+      box-shadow: 0 30px 100px rgba(0,0,0,.5);
+    }
+    dialog::backdrop { background: rgba(0,0,0,.78); }
+    .viewer-wrap { position: relative; }
+    #viewerImage {
+      max-height: calc(100dvh - 88px);
+      object-fit: contain;
+      background: #111;
+    }
+    .viewer-caption {
+      margin: 0;
+      padding: 13px 60px 13px 16px;
+      font-size: 14px;
+      color: #e8e8e4;
+    }
+    .viewer-close {
+      position: absolute;
+      right: 12px;
+      bottom: 8px;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,.35);
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      font-size: 24px;
+      line-height: 1;
+    }
+    .viewer-close:hover,
+    .viewer-close:focus-visible { background: #fff; color: #111; outline: none; }
+
+    @media (max-width: 800px) {
+      .site-nav { width: min(100% - 32px, 680px); padding-top: 18px; gap: 22px; }
+      .entry {
+        width: min(100% - 32px, 680px);
+        padding: 56px 0 86px;
+      }
+      .entry-lead,
+      .entry-continuation { grid-template-columns: 1fr; gap: 42px; }
+      .entry-continuation { margin-top: 64px; }
+      .entry-photo { width: min(86vw, 510px); }
+      .entry-continuation .entry-photo { justify-self: end; }
+      .entry-copy p { font-size: 18px; }
+      .archive-heading { width: min(100% - 32px, 680px); }
+      .hero {
+        width: min(100% - 32px, 680px);
+        min-height: 0;
+        grid-template-columns: 1fr;
+        gap: 52px;
+        padding: 58px 0 82px;
+      }
+      h1,
+      .hero h2 { font-size: clamp(43px, 13vw, 66px); }
+      .hero-copy > p:not(.eyebrow) { margin-top: 24px; }
+      .hero-figure { min-height: 0; height: min(130vw, 720px); }
+      .hero-figure::before { width: 95px; height: 95px; top: -16px; right: -16px; }
+      .caption { left: 12px; bottom: 14px; }
+      .story { padding: 80px 0; }
+      .story-inner {
+        width: min(100% - 32px, 680px);
+        grid-template-columns: 1fr;
+        gap: 34px;
+      }
+      .story-index { width: 185px; }
+      .memory-lines { margin-top: 40px; }
+      .letter {
+        width: min(100% - 32px, 680px);
+        padding: 82px 0 92px;
+        grid-template-columns: 1fr;
+      }
+      .letter-photo { width: min(86vw, 430px); }
+      .letter-copy { padding-top: 4px; }
+      .closing { padding: 68px 24px 76px; }
+    }
+
+    @media (max-width: 430px) {
+      body { font-size: 16px; }
+      .site-nav { justify-content: flex-start; }
+      .hero { padding-top: 46px; }
+      .eyebrow { letter-spacing: .07em; }
+      .hero-figure { height: 127vw; }
+      .story-body p:first-of-type { font-size: 19px; }
+      .memory-lines li { grid-template-columns: 64px 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+
+    @media print {
+      .site-nav, .zoom-btn, dialog { display: none !important; }
+      body { background: #fff; color: #111; }
+      .hero { min-height: auto; page-break-after: always; }
+      .story, .letter { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">跳到正文</a>
+
+  <nav class="site-nav" aria-label="页面导航">
+    <a href="#pumpkin">最新记录</a>
+    <a href="#moment">往日片段</a>
+    <a href="#letter">爸爸的话</a>
+  </nav>
+
+  <main id="content">
+    <article class="entry" id="pumpkin" aria-labelledby="pumpkin-title">
+      <div class="entry-lead">
+        <div class="entry-copy">
+          <p class="entry-date">2026年9月29日 星期二 · 南瓜与向日葵</p>
+          <h1 id="pumpkin-title">南瓜与向日葵</h1>
+          <p>傍晚的地里，闺女抱起了一个大南瓜。橙红色的，又圆又沉，她两只小手紧紧搂着，眼睛亮亮的，像抱着自己摘下来的战利品。身后的庄稼绿油油，远山含黛，秋意正浓。</p>
+          <p>她还穿着库洛米的睡衣，头发被风吹得有点乱，但抱南瓜的架势一点不含糊，一看就是干活的好手。</p>
+        </div>
+
+        <figure class="entry-photo">
+          <img src="img1.jpg" alt="闺女穿着库洛米睡衣，在秋日田地里抱着一个橙红色南瓜" />
+          <figcaption>地里的南瓜熟了</figcaption>
+          <button class="zoom-btn" type="button" data-image="images/img1.jpg" data-caption="地里的南瓜熟了">查看大图</button>
+        </figure>
+      </div>
+
+      <div class="entry-continuation">
+        <figure class="entry-photo">
+          <img src="img2.jpg" alt="爸爸站在一幅盛放的向日葵作品前合影" />
+          <figcaption>墙上的向日葵开着</figcaption>
+          <button class="zoom-btn" type="button" data-image="images/img2.jpg" data-caption="墙上的向日葵开着">查看大图</button>
+        </figure>
+
+        <div class="entry-closing">
+          <p>爸爸今天则去看了一场画展。展厅的墙上开满了向日葵，金灿灿、热烈烈的一大片。爸爸往画前一站，笑得也像一朵向日葵。</p>
+          <p>地里的南瓜熟了，墙上的向日葵开着。这个秋天，父女俩各有各的收获，也各有各的快乐。</p>
+        </div>
+      </div>
+    </article>
+
+    <p class="archive-heading">往日记录</p>
+
+    <article class="entry" id="autumn" aria-labelledby="autumn-title">
+      <div class="entry-lead">
+        <div class="entry-copy">
+          <p class="entry-date">2026年9月28日 星期一 · 秋日山间</p>
+          <h1 id="autumn-title">秋日山间</h1>
+          <p>中秋刚过，山里的秋意正浓。今天带女儿进山，灌木丛上结满了橙红透亮的小果子，她蹲下来伸手去摸，一脸认真，大概在研究这果子能不能吃。</p>
+        </div>
+
+        <figure class="entry-photo">
+          <img src="img3.jpg" alt="女儿在山间伸手触摸灌木丛里的橙红色小果子" />
+          <figcaption>山野里的小发现</figcaption>
+          <button class="zoom-btn" type="button" data-image="images/img3.jpg" data-caption="山野里的小发现">查看大图</button>
+        </figure>
+      </div>
+
+      <div class="entry-continuation">
+        <figure class="entry-photo">
+          <img src="img4.jpg" alt="傍晚，女儿跟着大人沿山路下山，金色夕阳照亮远处山坡" />
+          <figcaption>夕阳下的归途</figcaption>
+          <button class="zoom-btn" type="button" data-image="images/img4.jpg" data-caption="夕阳下的归途">查看大图</button>
+        </figure>
+
+        <div class="entry-closing">
+          <p>傍晚下山时，夕阳把整个山坡染成了金黄色。她跟在大人身后，沿着山路蹦蹦跳跳，还伸手指着远方，兴致勃勃，好像总有新发现。</p>
+          <p>孩子的世界真小，小到一丛果子、一道山坡就能装满；孩子的世界又真大，大到每一次出门都是一场探险。愿她一直这样，对世界保持好奇。</p>
+          <p class="entry-signature">—— 爸爸</p>
+        </div>
+      </div>
+    </article>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">成长手记 · 此刻</p>
+        <h2 id="hero-title">慢慢长大，<br />认真生活</h2>
+        <p>今天把这份专注收进记忆里。书页会合上，但你认真写下每一笔的样子，值得被好好珍藏。</p>
+        <a class="text-link" href="#moment">读这一篇</a>
+      </div>
+
+      <figure class="hero-figure">
+        <img src="img5.jpg" alt="女儿在图书馆的书桌前握着蓝色的笔，面前摊开着书本" />
+        <figcaption class="caption">图书馆里的专注时刻</figcaption>
+        <button class="zoom-btn" type="button" data-image="images/img5.jpg" data-caption="图书馆里的专注时刻">查看大图</button>
+      </figure>
+    </section>
+
+    <section class="story" id="moment" aria-labelledby="story-title">
+      <div class="story-inner">
+        <aside class="story-index" aria-label="篇章信息">
+          <span>成长片段 01</span>
+          <strong>书页与蓝色的笔</strong>
+        </aside>
+
+        <article class="story-body">
+          <h2 id="story-title">书页间的小小专注</h2>
+          <p>趴在摊开的书本前，手里握着一支蓝色的笔。目光落在题目上，周围的书架安静地退到背景里。</p>
+          <p>值得记住的日子，不一定要发生大事。有时候只是一个普通下午，一页写到一半的练习，一次认真停留的目光。成长就在这些不起眼的瞬间里，一点一点留下痕迹。</p>
+          <p>愿你以后回头看到这张照片，还能想起：每一次专心，每一点好奇，都在悄悄带你走向更广阔的地方。</p>
+
+          <ul class="memory-lines" aria-label="这一刻的记录">
+            <li><span>看见</span><strong>专注在眼前的这一页</strong></li>
+            <li><span>留下</span><strong>握笔书写的瞬间</strong></li>
+            <li><span>想说</span><strong>慢一点，也没关系</strong></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="letter" id="letter" aria-labelledby="letter-title">
+      <figure class="letter-photo">
+        <img src="img6.jpg" alt="爸爸身穿白色衬衫，手持麦克风说话" />
+        <button class="zoom-btn" type="button" data-image="images/img6.jpg" data-caption="爸爸想把这些话留给你">查看大图</button>
+      </figure>
+
+      <div class="letter-copy">
+        <p class="eyebrow">写给女儿</p>
+        <h2 id="letter-title">爸爸的话</h2>
+        <blockquote>“愿你保持好奇，不必急着长大。认真做喜欢的事，也勇敢走自己的路。无论走到哪里，都记得家里有人为你鼓掌。”</blockquote>
+        <p class="signature">一直爱你的爸爸</p>
+      </div>
+    </section>
+
+    <footer class="closing">
+      <p>愿你在自己的节奏里，<span>明亮地长大。</span></p>
+    </footer>
+  </main>
+
+  <dialog id="viewer" aria-label="照片大图">
+    <div class="viewer-wrap">
+      <img id="viewerImage" src="img5.jpg" alt="" />
+      <p class="viewer-caption" id="viewerCaption"></p>
+      <button class="viewer-close" type="button" aria-label="关闭大图">×</button>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var dialog = document.getElementById('viewer');
+      var image = document.getElementById('viewerImage');
+      var caption = document.getElementById('viewerCaption');
+      var closeButton = dialog.querySelector('.viewer-close');
+      var triggers = document.querySelectorAll('.zoom-btn');
+
+      triggers.forEach(function (button) {
+        button.addEventListener('click', function () {
+          image.src = button.getAttribute('data-image');
+          image.alt = button.getAttribute('data-caption');
+          caption.textContent = button.getAttribute('data-caption');
+          dialog.showModal();
+        });
+      });
+
+      closeButton.addEventListener('click', function () { dialog.close(); });
+      dialog.addEventListener('click', function (event) {
+        if (event.target === dialog) dialog.close();
+      });
+    }());
+  </script>
+</body>
+</html>
